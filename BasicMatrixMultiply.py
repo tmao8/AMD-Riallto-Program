@@ -3,7 +3,7 @@ import numpy as np
 from npu.build.appbuilder import AppBuilder
 from npu.build.kernel import Kernel
 
-example = Kernel('BasicMatrixMultiplyKernel.cpp')
+example = Kernel('VectorMatrixMultiply.cpp')
 print(example.srccode)
 
 example.out_buffer.array = np.ndarray(shape=(64), dtype=np.uint8)
