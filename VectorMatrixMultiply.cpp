@@ -6,18 +6,19 @@
 #define REL_READ 1
 #include <aie_api/aie.hpp>
 
-        template <typename T, int N>
-void matrix_multiply_aie_vector(const T* in_buffer1, const T* in_buffer2, T* out_buffer, 
-                            const uint32_t col_size) {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                out_buffer[i * 8 + j] = 0;
-                for (int k = 0; k < 8; k++) {
-                    out_buffer[i * 8 + j] += in_buffer1[i * 8 + k] * in_buffer2[k * 8 + j];
-                }
-            }
-        }
+template <typename T, int N>
+void matrix_multiply_aie_vector(const T* in_buffer1, const T* in_buffer2, T* out_buffer, const uint32_t elems) {
+
+    ::aie::vector<uint8_t,64> A;
+    ::aie::vector<uint8_t,64> B;
+    ::aie::mmul<8,8,8,uint8_t,uint8_t> C;
+    A = ::aie::load_v<64>(in_buffer1);
+    B = ::aie::load_v<64>(in_buffer2);
+    C.mul(A,B);
+
+    ::aie::store_v(out_buffer, C.to_vector<uint8_t>());
 }
+
 
 
 extern "C" {
