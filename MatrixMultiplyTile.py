@@ -93,8 +93,6 @@ A3 = A3.reshape(A3.shape[0], -1)
 A4 = A[3]
 A4 = A4.reshape(A4.shape[0], -1)
 
-print(A4)
-
 B1 = B[0].reshape(B[0].shape[0], -1)
 B2 = B[1].reshape(B[1].shape[0], -1)
 B1B2 = np.concatenate((B1, B2), axis=1)
